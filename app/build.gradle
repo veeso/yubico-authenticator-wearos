@@ -12,7 +12,7 @@ android {
         minSdk 30
         targetSdk 32
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.0"
 
     }
 
@@ -29,8 +29,16 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'com.google.android.gms:play-services-wearable:17.1.0'
+    api "com.yubico.yubikit:android:2.1.0"
+    api "com.yubico.yubikit:management:2.1.0"
+    api "com.yubico.yubikit:oath:2.1.0"
+    api "com.yubico.yubikit:support:2.1.0"
+
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.fragment:fragment-ktx:1.5.5'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'com.google.android.gms:play-services-wearable:18.0.0'
     implementation 'androidx.percentlayout:percentlayout:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
