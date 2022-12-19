@@ -29,12 +29,12 @@ android {
 
 dependencies {
 
-    api "com.yubico.yubikit:android:2.1.0"
-    api "com.yubico.yubikit:management:2.1.0"
-    api "com.yubico.yubikit:oath:2.1.0"
-    api "com.yubico.yubikit:support:2.1.0"
+    implementation "com.yubico.yubikit:android:2.1.0"
+    implementation "com.yubico.yubikit:management:2.1.0"
+    implementation "com.yubico.yubikit:oath:2.1.0"
+    implementation "com.yubico.yubikit:support:2.1.0"
 
-    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.fragment:fragment-ktx:1.5.5'
     implementation 'androidx.preference:preference-ktx:1.2.0'

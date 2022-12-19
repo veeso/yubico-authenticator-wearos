@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,17 +7,22 @@
     tools:context=".MainActivity"
     tools:deviceIds="wear">
 
-    <FrameLayout
+    <ImageView
+        android:id="@+id/noKey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="false"
+        android:contentDescription="@string/no_key_logo"
+        android:cropToPadding="true"
+        android:paddingHorizontal="64dp"
+        android:src="@drawable/no_key" />
+
+    <TextView
+        android:id="@+id/noKeyCaption"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/inner_frame_layout_padding"
-        app:layout_boxedEdges="all">
-
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hello_world" />
-
-    </FrameLayout>
+        android:contentDescription="@string/no_yubikey_caption"
+        android:gravity="bottom|center_horizontal"
+        android:paddingVertical="32dp"
+        android:text="@string/tap_your_yubikey" />
 </androidx.wear.widget.BoxInsetLayout>

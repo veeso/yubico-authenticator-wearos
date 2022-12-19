@@ -20,8 +20,15 @@ class MainActivity : Activity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var yubikit: YubiKitManager
 
-    private var hasNfc: Boolean = false
-    private val nfcConfiguration = NfcConfiguration()
+    private val intentTag: String = "TAG"
+
+    private var hasNfc = false
+    private var nfcConfiguration = NfcConfiguration()
+
+    companion object {
+        const val TAG = "MainActivity"
+        const val FLAG_SECURE = WindowManager.LayoutParams.FLAG_SECURE
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,12 +37,14 @@ class MainActivity : Activity() {
         yubikit = YubiKitManager(this)
         setupYubikitLogger()
 
+        nfcConfiguration.handleUnavailableNfc(true)
+        nfcConfiguration.skipNdefCheck(false)
+
         setContentView(binding.root)
     }
 
     override fun onPause() {
         stopNfcDiscovery()
-
         super.onPause()
     }
 
@@ -49,21 +58,7 @@ class MainActivity : Activity() {
 
             val executor = Executors.newSingleThreadExecutor()
             val device = NfcYubiKeyDevice(tag, nfcConfiguration.timeout, executor)
-            /*
-            lifecycleScope.launch {
-                try {
-                    // @TODO: process device
-                    // contextManager?.processYubiKey(device)
-                    device.remove {
-                        executor.shutdown()
-                        startNfcDiscovery()
-                    }
-                } catch (e: Throwable) {
-                    Log.e(TAG, "Error processing YubiKey in AppContextManager", e.toString())
-                }
-            }
-            */
-
+            processYubiKey(device)
         } else {
             startNfcDiscovery()
         }
@@ -74,8 +69,10 @@ class MainActivity : Activity() {
             Log.d(TAG, "Starting nfc discovery")
             yubikit.startNfcDiscovery(nfcConfiguration, this, ::processYubiKey)
             hasNfc = true
-        } catch (e: NfcNotAvailable) {
+        } catch (e: Exception) {
+            Log.e(TAG, "failed to start NFC discovery", e)
             hasNfc = false
+            startActivity(Intent(this, NfcUnavailableActivity::class.java))
         }
 
     private fun stopNfcDiscovery() {
@@ -113,8 +110,9 @@ class MainActivity : Activity() {
         return FLAG_SECURE != (window.attributes.flags and FLAG_SECURE)
     }
 
-    companion object {
-        const val TAG = "MainActivity"
-        const val FLAG_SECURE = WindowManager.LayoutParams.FLAG_SECURE
+    private fun processYubiKey(device: NfcYubiKeyDevice) {
+        startActivity(Intent(this, OathActivity::class.java).apply {
+            putExtra(intentTag, device.tag)
+        })
     }
 }
